@@ -1,0 +1,22 @@
+version: 2
+jobs:
+  build:
+    docker:
+      # Tell CircleCI we want to use the CircleCI Golang Docker image.
+      - image: circleci/golang:1.9
+    # Specify working directory.
+    working_directory: /go/src/github.com/gamemann/Simple-GoLang-Application-With-CircleCI
+    steps:
+      # Checkout latest code.
+      - checkout
+
+      # Make test directory.
+      - run: mkdir -p /tmp/test-results
+
+      # Run Go commands.
+      - run: go get -v -t -d ./...
+      - run: go test -v ./...
+
+      # Store test results.
+      - store_test_results:
+          path: /tmp/test-results
